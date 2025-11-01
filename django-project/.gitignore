@@ -1,0 +1,78 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# === Virtual Environment ===
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# === Django ===
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+static/
+local_settings.py
+
+# === Migrations ===
+*/migrations/*
+!*/migrations/__init__.py
+
+# === Environment Variables ===
+.env
+*.env
+.env.local
+.env.dev
+.env.prod
+
+# === IDEs and Editors ===
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
+
+# === Cache / Temp ===
+__pycache__/
+*.py[cod]
+*$py.class
+pip-log.txt
+pip-delete-this-directory.txt
+
+# === Coverage / Testing ===
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+.pyre/
+.pytype/
+
+# === MyPy ===
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# === Docker ===
+*.pid
+*.seed
+*.bak
+*.log
+docker-compose.override.yml
