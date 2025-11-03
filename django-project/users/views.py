@@ -53,7 +53,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
                 path="/",
                 max_age=7 * 24 * 3600,
             )
-            response.data.pop("refresh", None)
+            
         return response
 
 

@@ -111,8 +111,9 @@ export default function Profile() {
     const token = localStorage.getItem("access");
     const res = await fetch(`${API}/logout/`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       credentials: "include",
+      body: JSON.stringify({ refresh: localStorage.getItem("refresh") }),
     });
     if (res.ok) {
       localStorage.clear();
@@ -136,8 +137,8 @@ export default function Profile() {
               formData.profile_picture instanceof File
                 ? URL.createObjectURL(formData.profile_picture)
                 : user.profile_picture
-                ? MEDIA_URL + user.profile_picture
-                : "/user.png"
+                  ? MEDIA_URL + user.profile_picture
+                  : "/user.png"
             }
             alt="Profile"
             className="w-24 h-24 mx-auto rounded-full object-cover border-2 border-gray-300"
@@ -196,10 +197,10 @@ export default function Profile() {
                 DOB –{" "}
                 {user.date_of_birth
                   ? new Date(user.date_of_birth).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })
                   : "Not Set"}
               </span>
               <button

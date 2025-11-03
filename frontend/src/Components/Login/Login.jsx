@@ -26,7 +26,9 @@ export default function Login() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data?.detail || "Invalid credentials");
+      console.log(data)
       localStorage.setItem("access", data.access);
+      localStorage.setItem("refresh", data.refresh);
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
