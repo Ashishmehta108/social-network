@@ -12,26 +12,66 @@ export default function PostCard({ post, token, user, onPostUpdate }) {
   const [loading, setLoading] = useState(false);
 
   const handleLike = async () => {
+    const prevLiked = liked;
+    const prevDisliked = disliked;
+    const prevLikeCount = likeCount;
+    const prevDislikeCount = dislikeCount;
+
+    if (liked) {
+      setLiked(false);
+      setLikeCount((c) => c - 1);
+    } else {
+      setLiked(true);
+      setLikeCount((c) => c + 1);
+      if (disliked) {
+        setDisliked(false);
+        setDislikeCount((c) => c - 1);
+      }
+    }
+
     try {
       const res = await toggleLike(token, post.id);
       setLiked(res.liked);
+      setDisliked(res.disliked);
       setLikeCount(res.likes_count);
-      setDisliked(false);
       setDislikeCount(res.dislikes_count);
-    } catch (error) {
-      console.error("Error liking post:", error);
+    } catch {
+      setLiked(prevLiked);
+      setDisliked(prevDisliked);
+      setLikeCount(prevLikeCount);
+      setDislikeCount(prevDislikeCount);
     }
   };
 
   const handleDislike = async () => {
+    const prevLiked = liked;
+    const prevDisliked = disliked;
+    const prevLikeCount = likeCount;
+    const prevDislikeCount = dislikeCount;
+
+    if (disliked) {
+      setDisliked(false);
+      setDislikeCount((c) => c - 1);
+    } else {
+      setDisliked(true);
+      setDislikeCount((c) => c + 1);
+      if (liked) {
+        setLiked(false);
+        setLikeCount((c) => c - 1);
+      }
+    }
+
     try {
       const res = await toggleDislike(token, post.id);
+      setLiked(res.liked);
       setDisliked(res.disliked);
-      setDislikeCount(res.dislikes_count);
-      setLiked(false);
       setLikeCount(res.likes_count);
-    } catch (error) {
-      console.error("Error disliking post:", error);
+      setDislikeCount(res.dislikes_count);
+    } catch {
+      setLiked(prevLiked);
+      setDisliked(prevDisliked);
+      setLikeCount(prevLikeCount);
+      setDislikeCount(prevDislikeCount);
     }
   };
 
@@ -42,8 +82,7 @@ export default function PostCard({ post, token, user, onPostUpdate }) {
       setLoading(true);
       await deletePost(token, post.id);
       onPostUpdate(token);
-    } catch (error) {
-      console.error("Error deleting post:", error);
+    } catch {
     } finally {
       setLoading(false);
       setShowConfirm(false);
@@ -52,9 +91,7 @@ export default function PostCard({ post, token, user, onPostUpdate }) {
 
   return (
     <>
-      {/* Post Card */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 mb-6 transition hover:shadow-md">
-        {/* Header */}
         <div className="flex justify-between items-start p-4 sm:p-5 border-b border-gray-100">
           <div className="flex items-center gap-3">
             <img
@@ -90,14 +127,12 @@ export default function PostCard({ post, token, user, onPostUpdate }) {
           )}
         </div>
 
-        {/* Description */}
         <div className="px-4 sm:px-5 py-3">
           <p className="text-gray-800 text-[15px] leading-relaxed whitespace-pre-line">
             {post.description}
           </p>
         </div>
 
-        {/* Image */}
         {post.image && (
           <div className="px-4 sm:px-5 pb-3">
             <div className="rounded-xl overflow-hidden border border-gray-100">
@@ -110,31 +145,31 @@ export default function PostCard({ post, token, user, onPostUpdate }) {
           </div>
         )}
 
-        {/* Actions */}
         <div className="flex items-center gap-3 px-4 sm:px-5 py-4 border-t border-gray-100 text-sm">
           <button
             onClick={handleLike}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200 ${liked
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200 ${
+              liked
                 ? "text-blue-600 bg-blue-50"
                 : "text-gray-600 hover:bg-gray-50"
-              }`}
+            }`}
           >
             <ThumbsUp size={18} /> Like {likeCount}
           </button>
 
           <button
             onClick={handleDislike}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200 ${disliked
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all duration-200 ${
+              disliked
                 ? "text-red-600 bg-red-50"
                 : "text-gray-600 hover:bg-gray-50"
-              }`}
+            }`}
           >
             <ThumbsDown size={18} /> Dislike {dislikeCount}
           </button>
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
           <div className="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-sm animate-fadeIn">
