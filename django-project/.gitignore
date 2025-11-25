@@ -22,9 +22,6 @@ staticfiles/
 static/
 local_settings.py
 
-# === Migrations ===
-*/migrations/*
-!*/migrations/__init__.py
 
 # === Environment Variables ===
 .env
