@@ -38,10 +38,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://xtt5m66l-5173.inc1.devtunnels.ms",
-]
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
 
 ROOT_URLCONF = "social_network.urls"
 
