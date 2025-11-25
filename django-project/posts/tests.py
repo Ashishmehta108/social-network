@@ -10,7 +10,7 @@ from posts.models import Post, Like
 # SQLITE_DATABASE = {
 #     "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
 # }
-
+ 
 
 # @override_settings(DATABASES=SQLITE_DATABASE)
 class PostApiTests(APITestCase):
