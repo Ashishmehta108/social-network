@@ -17,7 +17,7 @@ jobs:
         env:
           POSTGRES_DB: social_network
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: Ashish_m@123
         ports:
           - "5432:5432"
         options: >-
@@ -34,7 +34,7 @@ jobs:
       DJANGO_SETTINGS_MODULE: social_network.settings
       DB_NAME: social_network
       DB_USER: postgres
-      DB_PASSWORD: postgres
+      DB_PASSWORD: Ashish_m@123
       DB_HOST: 127.0.0.1
       DB_PORT: 5432
 

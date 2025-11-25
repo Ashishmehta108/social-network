@@ -10,6 +10,7 @@ jobs:
   ci-cd:
     name: Build + Deploy React App
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: frontend
@@ -42,4 +43,8 @@ jobs:
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: pnpm dlx vercel deploy --prod --yes --token "$VERCEL_TOKEN"
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          pnpm dlx vercel pull --yes --token $VERCEL_TOKEN --environment=production
+          pnpm dlx vercel deploy --prod --token $VERCEL_TOKEN
