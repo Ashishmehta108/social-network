@@ -10,6 +10,19 @@ jobs:
   ci:
     name: Run Tests
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: social_network
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     defaults:
       run:
         working-directory: django-project
@@ -29,6 +42,18 @@ jobs:
         run: |
           python -m pip install --upgrade pip wheel
           pip install -r requirements.txt
+
+      - name: Run Django Tests
+        env:
+          DJANGO_SETTINGS_MODULE: social_network.settings
+          DB_NAME: social_network
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+        run: |
+          python manage.py migrate --noinput
+          python manage.py test
 
   cd:
     name: Deploy to Render
