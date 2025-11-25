@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase
   
 from posts.models import Post, Like
 
-  
+   
 # SQLITE_DATABASE = {
 #     "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}
 # }
