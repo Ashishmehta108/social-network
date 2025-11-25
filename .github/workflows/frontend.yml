@@ -37,12 +37,14 @@ jobs:
 
       - name: Build React App
         run: pnpm run build
-
       - name: Deploy to Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          pnpm dlx vercel pull --yes --token $VERCEL_TOKEN --environment=production
+          # Pull Vercel config from root directory
+          pnpm dlx vercel pull --yes --token $VERCEL_TOKEN --environment=production --cwd .
+          # Deploy from frontend directory
+          cd frontend
           pnpm dlx vercel deploy --prod --token $VERCEL_TOKEN
