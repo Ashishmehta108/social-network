@@ -50,7 +50,7 @@ class PostApiTests(APITestCase):
     def test_like_toggle_creates_and_removes_like(self):
         post = Post.objects.create(user=self.user, description="Like me")
         url = reverse("like_toggle", args=[post.id])
-
+ 
         first_response = self.client.post(url)
         self.assertEqual(first_response.status_code, status.HTTP_200_OK)
         self.assertTrue(first_response.data["liked"])
