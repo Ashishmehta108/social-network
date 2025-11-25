@@ -51,7 +51,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          python -m pip install --upgrade pip wheel
+          python -m pip install --upgrade pip wheel 
+          pip install pillow
           pip install -r requirements.txt
 
       - name: Run Migrations & Tests
