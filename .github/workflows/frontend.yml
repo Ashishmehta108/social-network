@@ -1,5 +1,9 @@
 name: Frontend CI/CD (React → Vercel)
 
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 on:
   push:
     branches: ["main"]
@@ -7,13 +11,8 @@ on:
     branches: ["main"]
 
 jobs:
-  ci-cd:
-    name: Build + Deploy React App
+  Deploy-Production:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: frontend
 
     steps:
       - name: Checkout Code
@@ -27,24 +26,25 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install Dependencies
+        working-directory: frontend
         run: pnpm install --frozen-lockfile
 
+      - name: Install Vercel CLI
+        run: pnpm add -g vercel
 
-      - name: Build React App
-        run: pnpm run build
-      - name: Deploy to Vercel
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          # Pull Vercel config from root directory
-          pnpm dlx vercel pull --yes --token $VERCEL_TOKEN --environment=production --cwd .
-          # Deploy from frontend directory
-          cd frontend
-          pnpm dlx vercel deploy --prod --token $VERCEL_TOKEN
+      - name: Pull Vercel Environment Information
+        working-directory: frontend
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        working-directory: frontend
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts
+        working-directory: frontend
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
