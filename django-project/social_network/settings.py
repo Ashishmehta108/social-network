@@ -58,7 +58,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 
 ROOT_URLCONF = "social_network.urls"
-
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -71,7 +71,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
             ],
         },
-    },
+    }, 
 ]
 
 WSGI_APPLICATION = "social_network.wsgi.application"
