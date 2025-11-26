@@ -74,6 +74,8 @@ TEMPLATES = [
     },  
 ]
 
+#okay
+
 WSGI_APPLICATION = "social_network.wsgi.application"
 
 
