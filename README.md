@@ -115,6 +115,7 @@ social_network_fullstack/
     "description": "My first post!",
     "image": [file]
   }
+  
   ```
 - `DELETE /api/posts/post` - Delete a post (requires post ID in request body)
 
